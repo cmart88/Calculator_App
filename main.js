@@ -48,11 +48,33 @@ class Calculator {
 		}
 		this.currentOperand = computation;
 		this.operation = undefined;
-		this.previousOperand = '';
+		this.previousOperand = ' ';
+	}
+	getDisplayNumber (number) {
+		const stringNum = number.toString();
+		const intergerDigits = parseFloat(stringNum.split('.')[0]);
+		const decimalDigits = stringNum.split('.')[1];
+		const floatNum = parseFloat(number);
+		let intergerDisplay;
+		if (isNaN(intergerDigits)) {
+			intergerDisplay = ' ';
+		} else {
+			intergerDisplay = intergerDigits.toLocaleString('en', { maximumFractionDigits: 0 });
+		}
+		if (decimalDigits != null) {
+			return `${intergerDisplay}.${decimalDigits}`;
+		} else {
+			return intergerDisplay;
+		}
 	}
 	updateDisplay () {
-		this.currentOperandTextElement.innerText = this.currentOperand;
-		this.previousOperandTextElement.innerText = this.previousOperand;
+		this.currentOperandTextElement.innerText = this.getDisplayNumber(this.currentOperand);
+		if (this.operation != null) {
+			this.previousOperandTextElement.innerText = `${this.getDisplayNumber(this.previousOperand)} ${this
+				.operation}`;
+		} else {
+			this.previousOperandTextElement.innerText = ' ';
+		}
 	}
 }
 
